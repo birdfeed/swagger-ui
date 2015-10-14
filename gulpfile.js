@@ -25,11 +25,11 @@ var banner = ['/**',
   ''].join('\n');
 
 /**
- * Clean ups ./dist folder
+ * Clean ups ../public/docs folder
  */
 gulp.task('clean', function() {
   return gulp
-    .src('./dist', {read: false})
+    .src('../public/docs', {read: false})
     .pipe(clean({force: true}))
     .on('error', log);
 });
@@ -74,12 +74,12 @@ gulp.task('dist', ['clean','lint'], function() {
     .pipe(concat('swagger-ui.js'))
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg } ))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('../public/docs'))
     .pipe(uglify())
     .on('error', log)
     .pipe(rename({extname: '.min.js'}))
     .on('error', log)
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('../public/docs'))
     .pipe(connect.reload());
 });
 
@@ -110,19 +110,19 @@ gulp.task('copy', ['less'], function() {
   // copy JavaScript files inside lib folder
   gulp
     .src(['./lib/**/*.{js,map}'])
-    .pipe(gulp.dest('./dist/lib'))
+    .pipe(gulp.dest('../public/docs/lib'))
     .on('error', log);
 
   // copy `lang` for translations
   gulp
     .src(['./lang/**/*.js'])
-    .pipe(gulp.dest('./dist/lang'))
+    .pipe(gulp.dest('../public/docs/lang'))
     .on('error', log);
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('../public/docs'))
     .on('error', log);
 });
 
